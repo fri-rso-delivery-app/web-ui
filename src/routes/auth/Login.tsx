@@ -1,9 +1,11 @@
+import { Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
 import axios from 'axios';
 import {
   Paper,
   Button,
   TextField,
+  Link,
   Box,
   Typography
 } from "@mui/material";
@@ -83,6 +85,11 @@ function Login() {
         >
           Login
         </Button>
+
+        <Link
+          component={RouterLink}
+          to="/register">Regsiter</Link>
+
       </Paper>
     </Box>
   )

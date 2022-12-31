@@ -12,6 +12,7 @@ import Login from './routes/auth/Login'
 import AppRouter from './routes/AppRouter'
 import { CircularProgress, createTheme, PaletteMode, ThemeProvider } from '@mui/material'
 import { ColorModeContext, getAppTheme } from './util/theme'
+import Register from './routes/auth/Register'
 
 export default function App() {
   const [mode, setMode] = useState(
@@ -77,6 +78,7 @@ const AppRoutes = () => {
   if (!authCtx.auth)
     return (
       <Routes>
+        <Route path="/register" element={ <Register /> } />
         <Route path="*" element={ <Login /> } />
       </Routes>
     )
