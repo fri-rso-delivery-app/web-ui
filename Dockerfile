@@ -24,7 +24,7 @@ RUN yarn run build
 FROM nginx
 
 # Copy production build files from builder phase to nginx
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Remove default config
 RUN rm /etc/nginx/conf.d/default.conf
