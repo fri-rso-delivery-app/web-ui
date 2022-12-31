@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 
 import LogoutIcon from '@mui/icons-material/Logout';
-import { UserRead } from "../../clients/auth/requests";
+import { UserRead } from "../../schemas/auth/Api";
 
 function ProfilePage() {
 

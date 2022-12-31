@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { QueryClientProvider, useQuery } from 'react-query'
 import { AuthContext, queryClient } from './util/server'
-import { UserRead } from './clients/auth/requests'
+import { UserRead } from './schemas/auth/Api'
 import { 
   Routes,
   BrowserRouter as Router,
