@@ -19,8 +19,11 @@ export interface HTTPValidationError {
 export interface Packet {
   /** Delivery Destination */
   delivery_destination: string;
-  /** Store Name */
-  store_name: string;
+  /**
+   * Store Id
+   * @format uuid
+   */
+  store_id: string;
   /** Description */
   description?: string;
   /**
@@ -40,12 +43,28 @@ export interface Packet {
   user_id: string;
 }
 
+/** PacketCreate */
+export interface PacketCreate {
+  /** Delivery Destination */
+  delivery_destination: string;
+  /**
+   * Store Id
+   * @format uuid
+   */
+  store_id: string;
+  /** Description */
+  description?: string;
+}
+
 /** PacketRead */
 export interface PacketRead {
   /** Delivery Destination */
   delivery_destination: string;
-  /** Store Name */
-  store_name: string;
+  /**
+   * Store Id
+   * @format uuid
+   */
+  store_id: string;
   /** Description */
   description?: string;
   /**
@@ -491,7 +510,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/packets/
      * @secure
      */
-    createPacketPacketsPost: (data: Packet, params: RequestParams = {}) =>
+    createPacketPacketsPost: (data: PacketCreate, params: RequestParams = {}) =>
       this.request<Packet, HTTPValidationError>({
         path: `/packets/`,
         method: "POST",
@@ -518,8 +537,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @format uuid
          */
         store_id: string;
-        /** Time In Hours */
-        time_in_hours: number;
+        /** Time In Minutes */
+        time_in_minutes: number;
+        /**
+         * Mode
+         * @default "driving"
+         */
+        mode?: "driving" | "walking" | "bicycling" | "transit";
       },
       params: RequestParams = {},
     ) =>
