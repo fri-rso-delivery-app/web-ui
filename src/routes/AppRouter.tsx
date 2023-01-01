@@ -9,6 +9,8 @@ import ProfilePage from './profile/Profile';
 import FontAwesomeSvgIcon from '../components/util/FontAwesomeSvgIcon';
 import { faStore } from '@fortawesome/free-solid-svg-icons';
 import StoresList from './stores/StoresList';
+import StoresNew from './stores/StoresNew';
+import StorePage from './stores/StorePage';
 
 
 export default function AppRouter() {
@@ -20,7 +22,10 @@ export default function AppRouter() {
         <Route index element={ <Home /> } />
 
         <Route path="/profile" element={ <ProfilePage /> } />
+        
         <Route path="/stores" element={ <StoresList /> } />
+        <Route path="/stores/new" element={ <StoresNew /> } />
+        <Route path="/stores/:id" element={ <StorePage /> } />
 
         <Route path="*" element={ <Err404 /> } />
       </Route>
