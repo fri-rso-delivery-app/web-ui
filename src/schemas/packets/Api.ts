@@ -19,11 +19,8 @@ export interface HTTPValidationError {
 export interface Packet {
   /** Delivery Destination */
   delivery_destination: string;
-  /**
-   * Store Id
-   * @format uuid
-   */
-  store_id: string;
+  /** Store Name */
+  store_name: string;
   /** Description */
   description?: string;
   /**
@@ -47,11 +44,8 @@ export interface Packet {
 export interface PacketRead {
   /** Delivery Destination */
   delivery_destination: string;
-  /**
-   * Store Id
-   * @format uuid
-   */
-  store_id: string;
+  /** Store Name */
+  store_name: string;
   /** Description */
   description?: string;
   /**
@@ -74,22 +68,16 @@ export interface PacketUpdate {
 
 /** StoreCreate */
 export interface StoreCreate {
-  /**
-   * Store Id
-   * @format uuid
-   */
-  store_id: string;
+  /** Store Name */
+  store_name: string;
   /** Location */
   location: string;
 }
 
 /** StoreRead */
 export interface StoreRead {
-  /**
-   * Store Id
-   * @format uuid
-   */
-  store_id: string;
+  /** Store Name */
+  store_name: string;
   /** Location */
   location: string;
   /**
@@ -106,6 +94,39 @@ export interface StoreRead {
 
 /** StoreUpdate */
 export type StoreUpdate = object;
+
+/** UserRead */
+export interface UserRead {
+  /**
+   *  Id
+   * @format uuid
+   */
+  _id: string;
+  /**
+   * Created
+   * @format date-time
+   */
+  created: string;
+  /** Username */
+  username: string;
+  /** Full Name */
+  full_name?: string;
+  /**
+   * Email
+   * @format email
+   */
+  email: string;
+  /**
+   * Is Customer
+   * @default false
+   */
+  is_customer?: boolean;
+  /**
+   * Is Delivery Person
+   * @default false
+   */
+  is_delivery_person?: boolean;
+}
 
 /** ValidationError */
 export interface ValidationError {
@@ -502,7 +523,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<any, HTTPValidationError>({
+      this.request<UserRead, HTTPValidationError>({
         path: `/packets/request_route`,
         method: "GET",
         query: query,
