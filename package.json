@@ -7,7 +7,7 @@
     "dev": "vite --port 8009",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "generate-schemas": "sta -p http://localhost:8080/api/v1/auth/openapi.json -o src/schemas/auth && sta -p http://localhost:8080/api/v1/todo/openapi.json -o src/schemas/todo"
+    "generate-schemas": "sta -p http://localhost:8080/api/v1/auth/openapi.json -o src/schemas/auth && sta -p http://localhost:8080/api/v1/todo/openapi.json -o src/schemas/todo && sta -p http://localhost:8080/api/v1/maps/openapi.json -o src/schemas/maps && sta -p http://localhost:8080/api/v1/packets/openapi.json -o src/schemas/packets"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
