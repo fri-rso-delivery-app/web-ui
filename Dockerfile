@@ -1,7 +1,7 @@
 # Build Stage Start
 
 # Specify a base image
-FROM node:16-alpine as builder 
+FROM node:19-alpine as builder
 
 # Specify a working directory
 WORKDIR '/app'
@@ -9,7 +9,7 @@ WORKDIR '/app'
 # Copy the dependencies file
 COPY package.json .
 # Needed because of build err
-COPY yarn.lock .
+#COPY yarn.lock .
 
 # Install dependencies
 RUN yarn install
