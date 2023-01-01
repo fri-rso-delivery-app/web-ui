@@ -14,6 +14,8 @@ import {
 
 import LogoutIcon from '@mui/icons-material/Logout';
 import { UserRead } from "../../schemas/auth/Api";
+import FontAwesomeSvgIcon from "../../components/util/FontAwesomeSvgIcon";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 function ProfilePage() {
 
@@ -43,6 +45,14 @@ function ProfilePage() {
             <TableRow>
               <TableCell component="th" scope="row"> id </TableCell>
               <TableCell>{user._id}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row"> customer? </TableCell>
+              <TableCell>{user.is_customer ? (<FontAwesomeSvgIcon icon={faCheck}/>) : (<FontAwesomeSvgIcon icon={faXmark}/>)}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row"> delivery? </TableCell>
+              <TableCell>{user.is_delivery_person ? (<FontAwesomeSvgIcon icon={faCheck}/>) : (<FontAwesomeSvgIcon icon={faXmark}/>)}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

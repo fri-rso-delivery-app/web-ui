@@ -56,6 +56,8 @@ export interface UserCreate {
    * @format email
    */
   email: string;
+  /** Password */
+  password: string;
 }
 
 /** UserRead */
@@ -79,6 +81,16 @@ export interface UserRead {
    * @format date-time
    */
   created: string;
+  /**
+   * Is Customer
+   * @default false
+   */
+  is_customer?: boolean;
+  /**
+   * Is Delivery Person
+   * @default false
+   */
+  is_delivery_person?: boolean;
 }
 
 /** UserUpdate */
@@ -360,18 +372,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Register User
      * @request POST:/users/register
      */
-    registerUserUsersRegisterPost: (
-      query: {
-        /** Password */
-        password: string;
-      },
-      data: UserCreate,
-      params: RequestParams = {},
-    ) =>
+    registerUserUsersRegisterPost: (data: UserCreate, params: RequestParams = {}) =>
       this.request<UserRead, HTTPValidationError>({
         path: `/users/register`,
         method: "POST",
-        query: query,
         body: data,
         type: ContentType.Json,
         format: "json",
