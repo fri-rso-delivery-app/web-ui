@@ -3,10 +3,12 @@ import MiniDrawer from '../components/navigation/Navigation';
 import Home from './home/Home';
 
 import HomeIcon from '@mui/icons-material/Home';
-import ListIcon from '@mui/icons-material/List';
 import PersonIcon from '@mui/icons-material/Person';
 import Err404 from './errors/Error404';
 import ProfilePage from './profile/Profile';
+import FontAwesomeSvgIcon from '../components/util/FontAwesomeSvgIcon';
+import { faStore } from '@fortawesome/free-solid-svg-icons';
+import StoresList from './stores/StoresList';
 
 
 export default function AppRouter() {
@@ -18,6 +20,7 @@ export default function AppRouter() {
         <Route index element={ <Home /> } />
 
         <Route path="/profile" element={ <ProfilePage /> } />
+        <Route path="/stores" element={ <StoresList /> } />
 
         <Route path="*" element={ <Err404 /> } />
       </Route>
@@ -32,7 +35,7 @@ function NavWidget () {
       links={[
         {title: 'Home', url: '/', icon: <HomeIcon/>},
         {title: 'Profile', url: '/profile', icon: <PersonIcon/>},
-        {title: 'Tasks', url: '/tasks', icon: <ListIcon/>},
+        {title: 'Stores', url: '/stores', icon: <FontAwesomeSvgIcon icon={faStore}/>},
       ]}
     >
       <Outlet />
