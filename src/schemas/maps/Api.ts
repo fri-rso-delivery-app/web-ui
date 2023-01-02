@@ -27,6 +27,14 @@ export interface HTTPValidationError {
   detail?: ValidationError[];
 }
 
+/** StrPoint */
+export interface StrPoint {
+  /** Lat */
+  lat: string;
+  /** Lng */
+  lng: string;
+}
+
 /** ValidationError */
 export interface ValidationError {
   /** Location */
@@ -291,6 +299,56 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     ) =>
       this.request<Distance[], HTTPValidationError>({
         path: `/distances/points_list`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags distances
+     * @name GetCoordsDistancesGetCoordsGet
+     * @summary Get Coords
+     * @request GET:/distances/get_coords
+     * @secure
+     */
+    getCoordsDistancesGetCoordsGet: (
+      query: {
+        /** Address */
+        address: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<StrPoint, HTTPValidationError>({
+        path: `/distances/get_coords`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags distances
+     * @name GetAddressDistancesGetAddressGet
+     * @summary Get Address
+     * @request GET:/distances/get_address
+     * @secure
+     */
+    getAddressDistancesGetAddressGet: (
+      query: {
+        /** Coord */
+        coord: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<string, HTTPValidationError>({
+        path: `/distances/get_address`,
         method: "GET",
         query: query,
         secure: true,

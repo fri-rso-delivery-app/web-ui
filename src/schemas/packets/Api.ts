@@ -79,12 +79,6 @@ export interface PacketRead {
   created: string;
 }
 
-/** PacketUpdate */
-export interface PacketUpdate {
-  /** Description */
-  description?: string;
-}
-
 /** StoreCreate */
 export interface StoreCreate {
   /** Store Name */
@@ -113,39 +107,6 @@ export interface StoreRead {
 
 /** StoreUpdate */
 export type StoreUpdate = object;
-
-/** UserRead */
-export interface UserRead {
-  /**
-   *  Id
-   * @format uuid
-   */
-  _id: string;
-  /**
-   * Created
-   * @format date-time
-   */
-  created: string;
-  /** Username */
-  username: string;
-  /** Full Name */
-  full_name?: string;
-  /**
-   * Email
-   * @format email
-   */
-  email: string;
-  /**
-   * Is Customer
-   * @default false
-   */
-  is_customer?: boolean;
-  /**
-   * Is Delivery Person
-   * @default false
-   */
-  is_delivery_person?: boolean;
-}
 
 /** ValidationError */
 export interface ValidationError {
@@ -547,7 +508,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       },
       params: RequestParams = {},
     ) =>
-      this.request<UserRead, HTTPValidationError>({
+      this.request<PacketRead[], HTTPValidationError>({
         path: `/packets/request_route`,
         method: "GET",
         query: query,
@@ -588,26 +549,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/packets/${id}`,
         method: "DELETE",
         secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags packets
-     * @name UpdatePacketPacketsIdPatch
-     * @summary Update Packet
-     * @request PATCH:/packets/{id}
-     * @secure
-     */
-    updatePacketPacketsIdPatch: (id: any, data: PacketUpdate, params: RequestParams = {}) =>
-      this.request<PacketRead, HTTPValidationError>({
-        path: `/packets/${id}`,
-        method: "PATCH",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
         format: "json",
         ...params,
       }),
