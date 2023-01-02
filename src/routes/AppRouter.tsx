@@ -7,13 +7,14 @@ import PersonIcon from '@mui/icons-material/Person';
 import Err404 from './errors/Error404';
 import ProfilePage from './profile/Profile';
 import FontAwesomeSvgIcon from '../components/util/FontAwesomeSvgIcon';
-import { faBox, faStore } from '@fortawesome/free-solid-svg-icons';
+import { faBox, faStore, faTruck } from '@fortawesome/free-solid-svg-icons';
 import StoresList from './stores/StoresList';
 import StoresNew from './stores/StoresNew';
 import StorePage from './stores/StorePage';
 import PacketsList from './packets/PacketsList';
 import PacketNew from './packets/PacketNew';
 import PacketPage from './packets/PacketPage';
+import DeliveryPage from './delivery/DeliveryPage';
 
 
 export default function AppRouter() {
@@ -34,6 +35,8 @@ export default function AppRouter() {
         <Route path="/packets/new" element={ <PacketNew /> } />
         <Route path="/packets/:id" element={ <PacketPage /> } />
 
+        <Route path="/delivery" element={ <DeliveryPage /> } />
+
         <Route path="*" element={ <Err404 /> } />
       </Route>
     </Routes>
@@ -49,6 +52,7 @@ function NavWidget () {
         {title: 'Profile', url: '/profile', icon: <PersonIcon/>},
         {title: 'Stores', url: '/stores', icon: <FontAwesomeSvgIcon icon={faStore}/>},
         {title: 'Packets', url: '/packets', icon: <FontAwesomeSvgIcon icon={faBox}/>},
+        {title: 'Delivery', url: '/delivery', icon: <FontAwesomeSvgIcon icon={faTruck}/>},
       ]}
     >
       <Outlet />

@@ -1,91 +1,114 @@
-import { useMutation, useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { useQuery } from "react-query";
+import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-dom";
 
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Paper,
-  Button,
   Typography,
   CircularProgress,
+  Link,
+  Paper,
+  Select,
+  MenuItem,
+  Slider,
+  TextField,
 } from "@mui/material";
 
-import FontAwesomeSvgIcon from "../../components/util/FontAwesomeSvgIcon";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { PacketRead } from "../../schemas/packets/Api";
-import { queryClient } from "../../util/server";
-import CustomerOnly from "../../components/containers/CustomerOnly";
+import { StoreRead } from "../../schemas/packets/Api";
+import { DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams } from "@mui/x-data-grid";
 import AddressWidget from "../../components/util/AddressWidget";
+import { useState } from "react";
 
-export default function PacketPage() {
-
-  let { id } = useParams();
+export default function DeliveryPage() {
 
   const navigate = useNavigate();
 
-  const { data: packet, isLoading, isError } = useQuery<PacketRead>(`packets/packets/${id}`);
+  const [mode, setMode] = useState('driving');
+  const [time, setTime] = useState(2);
 
-  const deleteMutation = useMutation(() => {
-    return axios.delete(`/packets/packets/${id}`);
-  }, {
-    onSuccess: (response) => {
-      queryClient.invalidateQueries('packets/packets');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-      navigate(`/packets/`, { replace: true });
-    },
+  const storeId = searchParams.get('storeId')
+
+  const { data: stores, isLoading, isError } = useQuery<StoreRead[]>(
+    `packets/packets/request_route?store_id=${encodeURIComponent(storeId!)}&time_in_minutes=${encodeURIComponent(Math.round(time*60))}&mode=${encodeURIComponent(mode)}`,
+    { enabled: storeId != null },
+  );
+
+  if (!storeId) {
+    return (
+      <Typography variant="h2">
+        Missing required param "storeId"!
+      </Typography>
+    )
   }
-);
 
   if (isLoading) return (<CircularProgress/>);
 
-  if (isError || packet == null) return (<h1>err loading data</h1>);
+  if (isError || stores == null) return (<h1>err loading data</h1>);
+
+  const columns: GridColDef<StoreRead>[] = [
+    {
+      field: '_id',
+      headerName: 'ID',
+      sortable: false,
+      width: 160,
+      valueGetter: (params: GridValueGetterParams) =>
+        params.row._id.substring(0, 8),
+    },
+    {
+      field: 'store_id',
+      headerName: 'Store',
+      sortable: false,
+      width: 160,
+      valueGetter: (params: GridValueGetterParams) =>
+        params.row.store_id.substring(0, 8),
+    },
+    { field: 'description', headerName: 'Description', width: 130 },
+    { field: 'delivery_destination', headerName: 'Delivery', width: 130 },
+    {
+      field: 'address',
+      headerName: 'Address',
+      sortable: false,
+      width: 160,
+      renderCell: (params: GridRenderCellParams) =>
+        (<AddressWidget coords={params.row.delivery_destination}/>),
+    },
+  ];
 
   return(
-    <>
+    <div style={{ height: 600, width: 900 }}>
+
+      <Paper sx={{p: 2}}>
+        <Select
+          value={mode}
+          label="Transportation mode"
+          onChange={(event) => setMode(event.target.value)}
+        >
+          <MenuItem value="driving">Driving</MenuItem>
+          <MenuItem value="walking">Walking</MenuItem>
+        </Select>
+
+        <TextField
+          value={time}
+          label="Time H"
+          onChange={(event) => setTime(Number(event.target.value))}
+          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} />
+      </Paper>
+
       <Typography variant="h2" sx={{ m: 4 }}>
-        {packet.description}
+        Route instructions
       </Typography>
 
-      <TableContainer component={Paper} sx={{ width: 'max-content', margin: 'auto' }}>
-        <Table sx={{ minWidth: 320 }} aria-label="simple table">
-          <TableBody>
-            <TableRow>
-              <TableCell component="th" scope="row"> store_id </TableCell>
-              <TableCell>{packet.store_id}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell component="th" scope="row"> delivery_destination </TableCell>
-              <TableCell>{packet.delivery_destination}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell component="th" scope="row"> address </TableCell>
-              <TableCell>
-                <AddressWidget coords={packet.delivery_destination}/>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell component="th" scope="row"> id </TableCell>
-              <TableCell>{packet._id}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <CustomerOnly>
-        <Button
-          onClick={() => deleteMutation.mutate()}
-          variant="contained"
-          sx={{ m: 2, background: 'red' }}
-        >
-          <FontAwesomeSvgIcon icon={faTrash}/>
-          Delete
-        </Button>
-      </CustomerOnly>
-      
-    </>
+      <DataGrid
+        rows={stores}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        getRowId={(params) => params._id}
+        disableColumnSelector
+        onRowClick={(params) => navigate(`/packets/${params.row._id}`)}
+        disableSelectionOnClick
+        checkboxSelection
+      />
+    </div>
   )
 }

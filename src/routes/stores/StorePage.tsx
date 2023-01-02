@@ -60,6 +60,14 @@ export default function StorePage() {
         </Link>
       </CustomerOnly>
 
+      <DeliveryOnly>
+        <Link
+          component={RouterLink}
+          to={`/delivery?storeId=${store._id}`}>
+            Start delivering
+        </Link>
+      </DeliveryOnly>
+
       <TableContainer component={Paper} sx={{ width: 'max-content', margin: 'auto' }}>
         <Table sx={{ minWidth: 320 }} aria-label="simple table">
           <TableBody>
