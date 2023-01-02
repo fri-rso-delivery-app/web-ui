@@ -8,8 +8,9 @@ import { RJSFSchema } from "@rjsf/utils";
 
 import { Paper, Typography } from "@mui/material";
 import { queryClient } from "../../util/server";
-import { StoreRead } from "../../schemas/packets/Api";
+import { PacketCreate, StoreRead } from "../../schemas/packets/Api";
 import MultilineText from "../../components/forms/MultilineText";
+import { StrPoint } from "../../schemas/maps/Api";
 
 export default function PacketNew() {
 
@@ -19,10 +20,15 @@ export default function PacketNew() {
 
   const storeId = searchParams.get('storeId')
 
-  const createMutation = useMutation((newObj: object) => {
+  const createMutation = useMutation(async (newObj: PacketCreate) => {
+      const res = await axios.get(`/maps/distances/get_coords?address=${encodeURIComponent(newObj.delivery_destination)}`)
+
+      const coords = res.data as StrPoint;
+
       return axios.post('/packets/packets/', {
         ...newObj,
         store_id: storeId,
+        delivery_destination: `${coords.lat};${coords.lng}`
       });
     }, {
       onSuccess: (response) => {

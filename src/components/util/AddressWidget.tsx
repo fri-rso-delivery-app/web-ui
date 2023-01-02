@@ -12,7 +12,7 @@ export default function AddressWidget({coords}: AddressWidgetProps) {
 
   if (isLoading) return (<CircularProgress/>);
 
-  if (isError || address == null) return (<h1>err loading data</h1>);
+  if (isError || address == null) return (<>err loading data</>);
 
   return (<> {address} </>)
 }
