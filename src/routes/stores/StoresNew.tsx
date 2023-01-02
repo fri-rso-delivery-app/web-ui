@@ -9,6 +9,7 @@ import { RJSFSchema } from "@rjsf/utils";
 import { Paper } from "@mui/material";
 import { queryClient } from "../../util/server";
 import { StoreRead } from "../../schemas/packets/Api";
+import MultilineText from "../../components/forms/MultilineText";
 
 export default function StoresNew() {
 
@@ -40,6 +41,10 @@ export default function StoresNew() {
   const uiSchema = {
     'ui:submitButtonOptions': {
       'submitText': 'Create Store'
+    },
+    location: {
+      'ui:size': 12,
+      'ui:widget': MultilineText,
     },
   }
 

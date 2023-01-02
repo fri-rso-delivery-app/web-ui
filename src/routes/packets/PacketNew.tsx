@@ -9,6 +9,7 @@ import { RJSFSchema } from "@rjsf/utils";
 import { Paper, Typography } from "@mui/material";
 import { queryClient } from "../../util/server";
 import { StoreRead } from "../../schemas/packets/Api";
+import MultilineText from "../../components/forms/MultilineText";
 
 export default function PacketNew() {
 
@@ -47,6 +48,10 @@ export default function PacketNew() {
   const uiSchema = {
     'ui:submitButtonOptions': {
       'submitText': 'Create Package'
+    },
+    delivery_destination: {
+      'ui:size': 12,
+      'ui:widget': MultilineText,
     },
   }
 
