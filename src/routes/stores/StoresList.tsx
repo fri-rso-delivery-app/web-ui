@@ -9,6 +9,7 @@ import {
 
 import { StoreRead } from "../../schemas/packets/Api";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import DeliveryOnly from "../../components/containers/DeliveryOnly";
 
 export default function StoresList() {
 
@@ -39,9 +40,11 @@ export default function StoresList() {
         Stores
       </Typography>
 
-      <Link
-        component={RouterLink}
-        to="/stores/new">Create Store</Link>
+      <DeliveryOnly>
+        <Link
+          component={RouterLink}
+          to="/stores/new">Create Store</Link>
+      </DeliveryOnly>
 
       <DataGrid
         rows={stores}

@@ -19,6 +19,8 @@ import FontAwesomeSvgIcon from "../../components/util/FontAwesomeSvgIcon";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { StoreRead } from "../../schemas/packets/Api";
 import { queryClient } from "../../util/server";
+import DeliveryOnly from "../../components/containers/DeliveryOnly";
+import CustomerOnly from "../../components/containers/CustomerOnly";
 
 export default function StorePage() {
 
@@ -49,11 +51,13 @@ export default function StorePage() {
         {store.store_name}
       </Typography>
 
-      <Link
-        component={RouterLink}
-        to={`/packets/new?storeId=${store._id}`}>
-          Order Package
-      </Link>
+      <CustomerOnly>
+        <Link
+          component={RouterLink}
+          to={`/packets/new?storeId=${store._id}`}>
+            Order Package
+        </Link>
+      </CustomerOnly>
 
       <TableContainer component={Paper} sx={{ width: 'max-content', margin: 'auto' }}>
         <Table sx={{ minWidth: 320 }} aria-label="simple table">
@@ -70,14 +74,16 @@ export default function StorePage() {
         </Table>
       </TableContainer>
 
-      <Button
-        onClick={() => deleteMutation.mutate()}
-        variant="contained"
-        sx={{ m: 2, background: 'red' }}
-      >
-        <FontAwesomeSvgIcon icon={faTrash}/>
-        Delete
-      </Button>
+      <DeliveryOnly>
+        <Button
+          onClick={() => deleteMutation.mutate()}
+          variant="contained"
+          sx={{ m: 2, background: 'red' }}
+        >
+          <FontAwesomeSvgIcon icon={faTrash}/>
+          Delete
+        </Button>
+      </DeliveryOnly>
       
     </>
   )

@@ -18,6 +18,7 @@ import FontAwesomeSvgIcon from "../../components/util/FontAwesomeSvgIcon";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { PacketRead } from "../../schemas/packets/Api";
 import { queryClient } from "../../util/server";
+import CustomerOnly from "../../components/containers/CustomerOnly";
 
 export default function PacketPage() {
 
@@ -67,14 +68,16 @@ export default function PacketPage() {
         </Table>
       </TableContainer>
 
-      <Button
-        onClick={() => deleteMutation.mutate()}
-        variant="contained"
-        sx={{ m: 2, background: 'red' }}
-      >
-        <FontAwesomeSvgIcon icon={faTrash}/>
-        Delete
-      </Button>
+      <CustomerOnly>
+        <Button
+          onClick={() => deleteMutation.mutate()}
+          variant="contained"
+          sx={{ m: 2, background: 'red' }}
+        >
+          <FontAwesomeSvgIcon icon={faTrash}/>
+          Delete
+        </Button>
+      </CustomerOnly>
       
     </>
   )
