@@ -8,15 +8,23 @@ import { RJSFSchema } from "@rjsf/utils";
 
 import { Paper } from "@mui/material";
 import { queryClient } from "../../util/server";
-import { StoreRead } from "../../schemas/packets/Api";
+import { StoreCreate, StoreRead } from "../../schemas/packets/Api";
 import MultilineText from "../../components/forms/MultilineText";
+import { StrPoint } from "../../schemas/maps/Api";
 
 export default function StoresNew() {
 
   const navigate = useNavigate();
 
-  const createMutation = useMutation((newObj) => {
-      return axios.post('/packets/stores/', newObj);
+  const createMutation = useMutation(async (newObj: StoreCreate) => {
+      const res = await axios.get(`/maps/distances/get_coords?address=${encodeURIComponent(newObj.location)}`)
+
+      const coords = res.data as StrPoint;
+
+      return await axios.post('/packets/stores/', {
+        ...newObj,
+        location: `${coords.lat};${coords.lng}`
+      });
     }, {
       onSuccess: (response) => {
         queryClient.invalidateQueries('packets/stores');

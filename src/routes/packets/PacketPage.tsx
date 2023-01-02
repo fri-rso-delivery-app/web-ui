@@ -19,6 +19,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { PacketRead } from "../../schemas/packets/Api";
 import { queryClient } from "../../util/server";
 import CustomerOnly from "../../components/containers/CustomerOnly";
+import AddressWidget from "../../components/util/AddressWidget";
 
 export default function PacketPage() {
 
@@ -59,6 +60,12 @@ export default function PacketPage() {
             <TableRow>
               <TableCell component="th" scope="row"> delivery_destination </TableCell>
               <TableCell>{packet.delivery_destination}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row"> address </TableCell>
+              <TableCell>
+                <AddressWidget coords={packet.delivery_destination}/>
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row"> id </TableCell>

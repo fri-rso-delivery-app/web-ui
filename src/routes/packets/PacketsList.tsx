@@ -8,7 +8,8 @@ import {
 } from "@mui/material";
 
 import { StoreRead } from "../../schemas/packets/Api";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams } from "@mui/x-data-grid";
+import AddressWidget from "../../components/util/AddressWidget";
 
 export default function PacketsList() {
 
@@ -39,6 +40,14 @@ export default function PacketsList() {
     },
     { field: 'description', headerName: 'Description', width: 130 },
     { field: 'delivery_destination', headerName: 'Delivery', width: 130 },
+    {
+      field: 'address',
+      headerName: 'Address',
+      sortable: false,
+      width: 160,
+      renderCell: (params: GridRenderCellParams) =>
+        (<AddressWidget coords={params.row.delivery_destination}/>),
+    },
   ];
 
   return(

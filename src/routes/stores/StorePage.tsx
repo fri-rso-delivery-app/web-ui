@@ -21,6 +21,7 @@ import { StoreRead } from "../../schemas/packets/Api";
 import { queryClient } from "../../util/server";
 import DeliveryOnly from "../../components/containers/DeliveryOnly";
 import CustomerOnly from "../../components/containers/CustomerOnly";
+import AddressWidget from "../../components/util/AddressWidget";
 
 export default function StorePage() {
 
@@ -65,6 +66,12 @@ export default function StorePage() {
             <TableRow>
               <TableCell component="th" scope="row"> location </TableCell>
               <TableCell>{store.location}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row"> address </TableCell>
+              <TableCell>
+                <AddressWidget coords={store.location}/>
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row"> id </TableCell>

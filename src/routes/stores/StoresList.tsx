@@ -8,8 +8,9 @@ import {
 } from "@mui/material";
 
 import { StoreRead } from "../../schemas/packets/Api";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams, GridValueGetterParams } from "@mui/x-data-grid";
 import DeliveryOnly from "../../components/containers/DeliveryOnly";
+import AddressWidget from "../../components/util/AddressWidget";
 
 export default function StoresList() {
 
@@ -32,6 +33,14 @@ export default function StoresList() {
     },
     { field: 'store_name', headerName: 'Name', width: 130 },
     { field: 'location', headerName: 'Location', width: 130 },
+    {
+      field: 'address',
+      headerName: 'Address',
+      sortable: false,
+      width: 160,
+      renderCell: (params: GridRenderCellParams) =>
+        (<AddressWidget coords={params.row.location}/>),
+    },
   ];
 
   return(
